@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - Book Search App{% endblock %}
+
+{% block content %}
+<!-- Search Summary Header -->
+<div class="mb-4">
+    <h2 class="mb-3">
+        <i class="fas fa-search text-primary"></i> Search Results
+    </h2>
+    
+    <div class="card bg-light">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><i class="fas fa-question-circle"></i> Query:</strong> 
+                    <span class="text-primary">{{ search_query }}</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><i class="fas fa-filter"></i> Search Type:</strong> 
+                    <span class="badge bg-info">{{ search_type|capitalize }}</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><i class="fas fa-database"></i> Total Found:</strong> 
+                    <span class="badge bg-success">{{ total_found }}</span>
+                    (Showing {{ books|length }})
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> New Search
+        </a>
+    </div>
+</div>
+
+<!-- Results Section -->
+{% if books %}
+    <div class="row">
+        {% for book in books %}
+            <div class="col-12 mb-4">
+                <div class="card h-100 shadow-sm book-card">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Book Cover -->
+                            <div class="col-md-2 text-center">
+                                {% if book.cover_url %}
+                                    <img src="{{ book.cover_url }}" 
+                                         alt="{{ book.title }} cover" 
+                                         class="img-fluid rounded shadow-sm book-cover"
+                                         onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
+                                {% else %}
+                                    <div class="no-cover-placeholder">
+                                        <i class="fas fa-book fa-3x text-muted"></i>
+                                        <p class="small text-muted mt-2">No Cover</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Book Details -->
+                            <div class="col-md-10">
+                                <h4 class="card-title text-primary mb-2">
+                                    {{ book.title }}
+                                </h4>
+                                
+                                <div class="book-details">
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-user text-muted"></i> Author(s):</strong> 
+                                        <span class="text-dark">{{ book.authors }}</span>
+                                    </p>
+                                    
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-calendar text-muted"></i> First Published:</strong> 
+                                        <span class="badge bg-secondary">{{ book.year }}</span>
+                                    </p>
+                                    
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-calendar-alt text-muted"></i> Publication Years:</strong> 
+                                        <span class="text-dark">{{ book.publish_years }}</span>
+                                    </p>
+                                    
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-book text-muted"></i> Total Editions:</strong> 
+                                        <span class="badge bg-info">{{ book.edition_count }}</span>
+                                    </p>
+                                    
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-barcode text-muted"></i> ISBN:</strong> 
+                                        <code>{{ book.isbn }}</code>
+                                    </p>
+                                    
+                                    <p class="mb-2">
+                                        <strong><i class="fas fa-language text-muted"></i> Language(s):</strong> 
+                                        {{ book.languages|upper }}
+                                    </p>
+                                    
+                                    {% if book.subjects != 'N/A' %}
+                                        <p class="mb-2">
+                                            <strong><i class="fas fa-tags text-muted"></i> Subjects:</strong> 
+                                            <span class="text-muted small">{{ book.subjects }}</span>
+                                        </p>
+                                    {% endif %}
+                                    
+                                    {% if book.openlibrary_url %}
+                                        <div class="mt-3">
+                                            <a href="{{ book.openlibrary_url }}" 
+                                               target="_blank" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-external-link-alt"></i> View on OpenLibrary
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination Info -->
+    <div class="alert alert-info mt-4">
+        <i class="fas fa-info-circle"></i>
+        <strong>Note:</strong> Showing {{ books|length }} of {{ total_found }} total results found. 
+        Use the search form to refine your query or increase the result limit.
+    </div>
+    
+{% else %}
+    <!-- No Results Found -->
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">
+            <i class="fas fa-exclamation-triangle"></i> No Results Found
+        </h4>
+        <p class="mb-0">
+            No books were found matching your search criteria. Please try:
+        </p>
+        <ul class="mt-2">
+            <li>Using different keywords</li>
+            <li>Checking your spelling</li>
+            <li>Trying a broader search term</li>
+            <li>Switching between Title, Author, or Subject search</li>
+        </ul>
+    </div>
+{% endif %}
+
+<!-- Back to Search Button -->
+<div class="text-center mt-4">
+    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+        <i class="fas fa-search"></i> Start New Search
+    </a>
+</div>
+{% endblock %}

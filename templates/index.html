@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Search Books - Book Search App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">
+                <i class="fas fa-book-reader text-primary"></i>
+                Book Search Web Application
+            </h1>
+            <p class="lead text-muted">
+                Search millions of books from the OpenLibrary database
+            </p>
+        </div>
+
+        <!-- Search Form Card -->
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="POST" action="{{ url_for('index') }}" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <!-- Search Query Field -->
+                    <div class="mb-4">
+                        {{ form.search_query.label(class="form-label fw-bold") }}
+                        {{ form.search_query(class="form-control form-control-lg" + (" is-invalid" if form.search_query.errors else "")) }}
+                        {% if form.search_query.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.search_query.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-info-circle"></i>
+                            Enter a book title, author name, or subject based on your selection below
+                        </div>
+                    </div>
+
+                    <!-- Search Type Field -->
+                    <div class="mb-4">
+                        {{ form.search_type.label(class="form-label fw-bold") }}
+                        {{ form.search_type(class="form-select" + (" is-invalid" if form.search_type.errors else "")) }}
+                        {% if form.search_type.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.search_type.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-filter"></i>
+                            Choose how you want to search the library
+                        </div>
+                    </div>
+
+                    <!-- Result Limit Field -->
+                    <div class="mb-4">
+                        {{ form.result_limit.label(class="form-label fw-bold") }}
+                        {{ form.result_limit(class="form-control" + (" is-invalid" if form.result_limit.errors else "")) }}
+                        {% if form.result_limit.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.result_limit.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            <i class="fas fa-list-ol"></i>
+                            Maximum: 20 results
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Example Searches -->
+        <div class="mt-5">
+            <h5 class="text-muted mb-3">
+                <i class="fas fa-lightbulb"></i> Try These Example Searches:
+            </h5>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card h-100 border-primary">
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">
+                                <i class="fas fa-book"></i> By Title
+                            </h6>
+                            <p class="card-text small mb-0">
+                                "The Great Gatsby"<br>
+                                "1984"<br>
+                                "To Kill a Mockingbird"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-success">
+                        <div class="card-body">
+                            <h6 class="card-title text-success">
+                                <i class="fas fa-user"></i> By Author
+                            </h6>
+                            <p class="card-text small mb-0">
+                                "Stephen King"<br>
+                                "J.K. Rowling"<br>
+                                "George Orwell"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-info">
+                        <div class="card-body">
+                            <h6 class="card-title text-info">
+                                <i class="fas fa-tags"></i> By Subject
+                            </h6>
+                            <p class="card-text small mb-0">
+                                "Science Fiction"<br>
+                                "Mystery"<br>
+                                "History"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
