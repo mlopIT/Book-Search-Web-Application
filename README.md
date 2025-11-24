@@ -1,5 +1,15 @@
 # Book Search Web Application
 
+## Hosted Version
+
+The web application is publicly hosted and available at:
+
+**https://flask-api-project-cgq2.onrender.com/**
+
+You can access the fully running version online without installing anything locally.
+
+---
+
 ## A. Project Overview
 
 This is an interactive Flask web application that allows users to search for books using the OpenLibrary API. Users can search by book title, author name, or subject/topic, and view detailed information about each book including cover images, publication details, ISBNs, and more.
@@ -74,7 +84,7 @@ The application demonstrates modern web development practices including form han
    ```
    FLASK_APP=app.py
    FLASK_ENV=development
-   SECRET_KEY=...
+   SECRET_KEY=anything_here_if_you_want  # Not required for local use
    ```
    
    **Note:** The OpenLibrary API does not require an API key.

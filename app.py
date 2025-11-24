@@ -16,7 +16,7 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configuration
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production') # Again, not required for local use
 
 # OpenLibrary API base URL
 OPENLIBRARY_API_BASE = 'https://openlibrary.org/search.json'
